@@ -1,0 +1,44 @@
+{
+  "Version": 0,
+  "LevelId": "this gets set by the game but its the folder name if you care",
+  "TrackName": "the song name",
+  "TrackSubtitle": "N/A",
+  "ArtistName": "the artists name",
+  "StageCreatorName": "your name",
+  "BeatsPerMinute": 230,
+  "TrackLength": "0",
+  "BeatCount": 2320,
+  "AudioFileName": "audio.mp3",
+  "AlbumArtFileName": "album.png",
+  "Counterpart": "Suzu",
+  "DifficultyInformation": [
+    {
+      "DifficultyLabel": "Easy",
+      "Difficulty": 1,
+      "BeatmapFileName": "easy.json",
+      "Intensity": 5
+    },
+    {
+      "DifficultyLabel": "Medium",
+      "Difficulty": 2,
+      "BeatmapFileName": "med.json",
+      "Intensity": 10
+    },
+    {
+      "DifficultyLabel": "Hard",
+      "Difficulty": 3,
+      "BeatmapFileName": "hard.json",
+      "Intensity": 25
+    },
+    {
+      "DifficultyLabel": "Impossible",
+      "Difficulty": 4,
+      "BeatmapFileName": "imp.json",
+      "Intensity": 30
+    }
+  ],
+  "AlbumArtSprite": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  }
+}
