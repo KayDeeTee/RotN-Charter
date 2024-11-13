@@ -1,0 +1,10 @@
+res://scene.tscn
+res://rotn_event.gd
+res://editor.tscn
+res://rotn_parser.gd
+res://adjustbpm.gd
+res://emu_track_draw.gd
+res://editor_cursor.gd
+res://emu_enemy.gd
+res://signals.gd
+res://minimap.gd

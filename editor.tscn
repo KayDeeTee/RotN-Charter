@@ -1,0 +1,717 @@
+[gd_scene load_steps=30 format=3 uid="uid://c07cxf0gtesd6"]
+
+[ext_resource type="Script" path="res://rotn_parser.gd" id="1_qps6w"]
+[ext_resource type="FontFile" uid="uid://cu4a854e7mtjl" path="res://fonts/Hack-Regular.ttf" id="2_30f6o"]
+[ext_resource type="Script" path="res://enemy_types.gd" id="2_hilse"]
+[ext_resource type="Script" path="res://bg_quant.gd" id="2_ov0pf"]
+[ext_resource type="Script" path="res://type.gd" id="2_sua6t"]
+[ext_resource type="Script" path="res://event_button_gen.gd" id="3_ilsax"]
+[ext_resource type="Script" path="res://beat.gd" id="3_p25ey"]
+[ext_resource type="Script" path="res://facing.gd" id="4_3p6tc"]
+[ext_resource type="Script" path="res://beat_end.gd" id="4_k5t5g"]
+[ext_resource type="Script" path="res://trap_type.gd" id="4_skxj3"]
+[ext_resource type="Script" path="res://track.gd" id="5_mvun8"]
+[ext_resource type="Script" path="res://delete.gd" id="6_6a7m7"]
+[ext_resource type="Script" path="res://snap_options.gd" id="6_brt7h"]
+[ext_resource type="Script" path="res://duplicate.gd" id="7_u8pww"]
+[ext_resource type="Script" path="res://atkrow.gd" id="8_mp7qo"]
+[ext_resource type="Script" path="res://trap_drop_row.gd" id="9_74q2l"]
+[ext_resource type="Script" path="res://trap_health_in_beats.gd" id="10_4a7dq"]
+[ext_resource type="Script" path="res://trap_col.gd" id="13_ht5h7"]
+[ext_resource type="Script" path="res://trap_dir.gd" id="14_2blju"]
+[ext_resource type="Script" path="res://trap_c_row.gd" id="15_43soe"]
+[ext_resource type="Script" path="res://select_box.gd" id="16_bf0ex"]
+[ext_resource type="Script" path="res://trap_col_track.gd" id="16_qttvh"]
+[ext_resource type="Script" path="res://adjustbpm.gd" id="18_i4y57"]
+[ext_resource type="Script" path="res://emu_track_draw.gd" id="21_5mw8o"]
+[ext_resource type="Script" path="res://editor_cursor.gd" id="22_y8nfv"]
+[ext_resource type="Script" path="res://minimap.gd" id="23_fjsdg"]
+
+[sub_resource type="Theme" id="Theme_83s6b"]
+default_font = ExtResource("2_30f6o")
+
+[sub_resource type="Gradient" id="Gradient_uklbl"]
+colors = PackedColorArray(0, 0, 0, 0.878431, 0, 0, 0, 0.752941)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qmfs2"]
+gradient = SubResource("Gradient_uklbl")
+fill_from = Vector2(1, 1)
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("chart_name_edit", "bpm_spin", "coal_spin", "subdiv_spin", "offset_spin", "chart_viewer", "speed_mod_spin", "load_dialog", "save_dialog", "qua_offset", "qua_file_name")]
+texture_filter = 1
+script = ExtResource("1_qps6w")
+chart_name_edit = NodePath("editor/main/editor/margin/split/chartedit/ChartName")
+bpm_spin = NodePath("editor/main/editor/margin/split/chartedit/bpm/bpm_spin")
+coal_spin = NodePath("editor/main/editor/margin/split/chartedit/coal/coal_spin")
+subdiv_spin = NodePath("editor/main/editor/margin/split/chartedit/subdiv/subdiv_spin")
+offset_spin = NodePath("editor/main/editor/margin/split/chartedit/offset/offset_spin")
+chart_viewer = NodePath("editor/main/chart view/chart_scroll/margin/chart_data")
+speed_mod_spin = NodePath("editor/main/editor/margin/split/chartedit/HBoxContainer2/smod_speed")
+load_dialog = NodePath("editor/main/LoadDialog")
+save_dialog = NodePath("editor/main/SaveDialog")
+qua_offset = NodePath("editor/main/editor/margin/split/chartedit/qua_offset/note_offset")
+qua_file_name = NodePath("editor/main/editor/margin/split/chartedit/qua_file/file_name")
+
+[node name="editor" type="CanvasLayer" parent="."]
+
+[node name="main" type="Control" parent="editor"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_83s6b")
+
+[node name="multi_select" type="Control" parent="editor/main" node_paths=PackedStringArray("chart_viewer")]
+z_index = 4000
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("16_bf0ex")
+chart_viewer = NodePath("../chart view/chart_scroll/margin/chart_data")
+
+[node name="editor" type="Control" parent="editor/main"]
+layout_mode = 1
+anchor_left = 0.4
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="bg" type="TextureRect" parent="editor/main/editor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_qmfs2")
+
+[node name="events" type="Control" parent="editor/main/editor"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 192.0
+grow_horizontal = 2
+
+[node name="split" type="VBoxContainer" parent="editor/main/editor/events"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="events_label" type="RichTextLabel" parent="editor/main/editor/events/split"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]Events[/center]"
+fit_content = true
+
+[node name="sep" type="HSeparator" parent="editor/main/editor/events/split"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="editor/main/editor/events/split"]
+layout_mode = 2
+
+[node name="events" type="HBoxContainer" parent="editor/main/editor/events/split/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_ilsax")
+
+[node name="margin" type="MarginContainer" parent="editor/main/editor"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="split" type="HBoxContainer" parent="editor/main/editor/margin"]
+layout_mode = 2
+
+[node name="chartedit" type="VBoxContainer" parent="editor/main/editor/margin/split"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="title" type="RichTextLabel" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]Chart Editor[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="HSeparator3" type="HSeparator" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+
+[node name="load" type="Button" parent="editor/main/editor/margin/split/chartedit/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Load"
+
+[node name="save" type="Button" parent="editor/main/editor/margin/split/chartedit/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="save as" type="Button" parent="editor/main/editor/margin/split/chartedit/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save As"
+
+[node name="ChartName" type="LineEdit" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+placeholder_text = "Chart Name"
+
+[node name="bpm" type="HBoxContainer" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+
+[node name="bpm" type="RichTextLabel" parent="editor/main/editor/margin/split/chartedit/bpm"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "BPM"
+fit_content = true
+
+[node name="bpm_spin" type="SpinBox" parent="editor/main/editor/margin/split/chartedit/bpm"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+step = 0.01
+value = 1.0
+allow_greater = true
+
+[node name="coal" type="HBoxContainer" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+
+[node name="coal_speed" type="RichTextLabel" parent="editor/main/editor/margin/split/chartedit/coal"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "Coal Speed"
+fit_content = true
+
+[node name="coal_spin" type="SpinBox" parent="editor/main/editor/margin/split/chartedit/coal"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+step = 0.01
+value = 1.0
+allow_greater = true
+
+[node name="subdiv" type="HBoxContainer" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+
+[node name="subdiv" type="RichTextLabel" parent="editor/main/editor/margin/split/chartedit/subdiv"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "BeatDivs"
+fit_content = true
+
+[node name="subdiv_spin" type="SpinBox" parent="editor/main/editor/margin/split/chartedit/subdiv"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+step = 0.01
+value = 1.0
+allow_greater = true
+
+[node name="offset" type="HBoxContainer" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+
+[node name="offset" type="RichTextLabel" parent="editor/main/editor/margin/split/chartedit/offset"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "Offset"
+fit_content = true
+
+[node name="offset_spin" type="SpinBox" parent="editor/main/editor/margin/split/chartedit/offset"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+step = 0.01
+value = 1.0
+allow_greater = true
+
+[node name="HSeparator" type="HSeparator" parent="editor/main/editor/margin/split/chartedit"]
+visible = false
+layout_mode = 2
+
+[node name="qua_offset" type="HBoxContainer" parent="editor/main/editor/margin/split/chartedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/chartedit/qua_offset"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "Note Offset"
+
+[node name="note_offset" type="SpinBox" parent="editor/main/editor/margin/split/chartedit/qua_offset"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+step = 0.0
+value = 1.0
+allow_greater = true
+allow_lesser = true
+
+[node name="qua_file" type="HBoxContainer" parent="editor/main/editor/margin/split/chartedit"]
+visible = false
+layout_mode = 2
+
+[node name="file_name" type="LineEdit" parent="editor/main/editor/margin/split/chartedit/qua_file"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="load_qua" type="Button" parent="editor/main/editor/margin/split/chartedit/qua_file"]
+layout_mode = 2
+text = "Load .qua"
+
+[node name="HSeparator2" type="HSeparator" parent="editor/main/editor/margin/split/chartedit"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="editor/main/editor/margin/split/chartedit"]
+layout_mode = 2
+
+[node name="smod_speed" type="SpinBox" parent="editor/main/editor/margin/split/chartedit/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+step = 0.0
+value = 1.0
+allow_greater = true
+allow_lesser = true
+
+[node name="save_smod" type="Button" parent="editor/main/editor/margin/split/chartedit/HBoxContainer2"]
+layout_mode = 2
+text = "Save SMod"
+
+[node name="emu play" type="Button" parent="editor/main/editor/margin/split/chartedit"]
+visible = false
+layout_mode = 2
+text = "Emu Play"
+
+[node name="eventedit" type="VBoxContainer" parent="editor/main/editor/margin/split"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="title" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]Event Editor[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="HSeparator3" type="HSeparator" parent="editor/main/editor/margin/split/eventedit"]
+layout_mode = 2
+
+[node name="beat_snap" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/beat_snap"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Snap"
+fit_content = true
+scroll_active = false
+
+[node name="snap_options" type="OptionButton" parent="editor/main/editor/margin/split/eventedit/beat_snap"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+script = ExtResource("6_brt7h")
+
+[node name="snap_rel" type="CheckBox" parent="editor/main/editor/margin/split/eventedit/beat_snap"]
+layout_mode = 2
+text = "Rel?"
+
+[node name="type" type="OptionButton" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+script = ExtResource("2_sua6t")
+
+[node name="enemy_type" type="OptionButton" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+script = ExtResource("2_hilse")
+
+[node name="trap_type" type="OptionButton" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+script = ExtResource("4_skxj3")
+
+[node name="start_beat" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/start_beat"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]StartBeat[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="beat" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/start_beat"]
+layout_mode = 2
+size_flags_horizontal = 3
+step = 0.0
+allow_greater = true
+allow_lesser = true
+script = ExtResource("3_p25ey")
+
+[node name="end_beat" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/end_beat"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]EndBeat[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="beat_end" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/end_beat"]
+layout_mode = 2
+size_flags_horizontal = 3
+step = 0.0
+allow_greater = true
+allow_lesser = true
+script = ExtResource("4_k5t5g")
+
+[node name="track" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/track"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Track[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="track" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/track"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 3.0
+step = 0.0
+value = 1.0
+allow_greater = true
+allow_lesser = true
+script = ExtResource("5_mvun8")
+
+[node name="trap_drop_row" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/trap_drop_row"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Row[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="trap_row" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/trap_drop_row"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 8.0
+value = 1.0
+allow_greater = true
+allow_lesser = true
+script = ExtResource("9_74q2l")
+
+[node name="trap_health_beats" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/trap_health_beats"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Duration[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="Trap_health" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/trap_health_beats"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+value = 1.0
+allow_greater = true
+allow_lesser = true
+script = ExtResource("10_4a7dq")
+
+[node name="trap_colour" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/trap_colour"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Colour[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="trap_col" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/trap_colour"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 5.0
+script = ExtResource("13_ht5h7")
+
+[node name="trap_dir" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/trap_dir"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Direction[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="trap_dir" type="OptionButton" parent="editor/main/editor/margin/split/eventedit/trap_dir"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("14_2blju")
+
+[node name="trap_child_spawn_row" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/trap_child_spawn_row"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Child Row[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="trap_c_row" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/trap_child_spawn_row"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 8.0
+script = ExtResource("15_43soe")
+
+[node name="trap_child_spawn_row2" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/trap_child_spawn_row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Child Track[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="trap_col_track" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/trap_child_spawn_row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 3.0
+value = 1.0
+script = ExtResource("16_qttvh")
+
+[node name="bm attack row" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/bm attack row"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]BM Atk Row[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="atkrow" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/bm attack row"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 8.0
+value = 1.0
+script = ExtResource("8_mp7qo")
+
+[node name="adjustbpm" type="HBoxContainer" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="editor/main/editor/margin/split/eventedit/adjustbpm"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]BPM[/right]"
+fit_content = true
+scroll_active = false
+
+[node name="adjustbpm" type="SpinBox" parent="editor/main/editor/margin/split/eventedit/adjustbpm"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 8.0
+step = 0.01
+value = 1.0
+allow_greater = true
+allow_lesser = true
+script = ExtResource("18_i4y57")
+
+[node name="facing" type="CheckBox" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+text = "Face Right"
+script = ExtResource("4_3p6tc")
+
+[node name="delete" type="Button" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+text = "delete
+"
+script = ExtResource("6_6a7m7")
+
+[node name="duplicate" type="Button" parent="editor/main/editor/margin/split/eventedit"]
+visible = false
+layout_mode = 2
+text = "duplicate
+"
+script = ExtResource("7_u8pww")
+
+[node name="chart view" type="Control" parent="editor/main"]
+layout_mode = 1
+anchor_right = 0.2
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="bg" type="ColorRect" parent="editor/main/chart view" node_paths=PackedStringArray("parser", "scroll")]
+z_index = -4096
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("2_ov0pf")
+parser = NodePath("../../../..")
+scroll = NodePath("../chart_scroll")
+
+[node name="chart_scroll" type="ScrollContainer" parent="editor/main/chart view"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="margin" type="MarginContainer" parent="editor/main/chart view/chart_scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/margin_right = 16
+
+[node name="chart_data" type="Control" parent="editor/main/chart view/chart_scroll/margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="cursor" type="Control" parent="editor/main/chart view" node_paths=PackedStringArray("chart_scroll", "chart_viewer")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("22_y8nfv")
+chart_scroll = NodePath("../chart_scroll")
+chart_viewer = NodePath("../chart_scroll/margin/chart_data")
+
+[node name="minimap" type="Control" parent="editor/main" node_paths=PackedStringArray("chart_scroll", "chart_viewer")]
+layout_mode = 1
+anchor_left = 0.2
+anchor_right = 0.2
+anchor_bottom = 1.0
+offset_right = 8.0
+script = ExtResource("23_fjsdg")
+chart_scroll = NodePath("../chart view/chart_scroll")
+chart_viewer = NodePath("../chart view/chart_scroll/margin/chart_data")
+
+[node name="emu" type="Control" parent="editor/main"]
+visible = false
+layout_mode = 1
+anchor_left = 0.2
+anchor_right = 0.4
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = 8.0
+
+[node name="track" type="Control" parent="editor/main/emu" node_paths=PackedStringArray("parser", "chart_viewer")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_5mw8o")
+parser = NodePath("../../../..")
+chart_viewer = NodePath("../../chart view/chart_scroll/margin/chart_data")
+
+[node name="LoadDialog" type="FileDialog" parent="editor/main"]
+title = "Open a File"
+size = Vector2i(303, 180)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.json", "*.qua")
+show_hidden_files = true
+use_native_dialog = true
+
+[node name="SaveDialog" type="FileDialog" parent="editor/main"]
+auto_translate_mode = 1
+size = Vector2i(303, 180)
+ok_button_text = "Save"
+access = 2
+filters = PackedStringArray("*.json")
+show_hidden_files = true
+use_native_dialog = true
+
+[connection signal="pressed" from="editor/main/editor/margin/split/chartedit/HBoxContainer/load" to="." method="_on_load"]
+[connection signal="pressed" from="editor/main/editor/margin/split/chartedit/HBoxContainer/save" to="." method="_on_save"]
+[connection signal="pressed" from="editor/main/editor/margin/split/chartedit/HBoxContainer/save as" to="." method="_on_save_as_pressed"]
+[connection signal="pressed" from="editor/main/editor/margin/split/chartedit/qua_file/load_qua" to="." method="_on_load_qua_pressed"]
+[connection signal="pressed" from="editor/main/editor/margin/split/chartedit/HBoxContainer2/save_smod" to="." method="_on_save_smod"]
+[connection signal="pressed" from="editor/main/editor/margin/split/chartedit/emu play" to="editor/main/emu/track" method="start_play"]
+[connection signal="file_selected" from="editor/main/LoadDialog" to="." method="_on_load_dialog_file_selected"]
+[connection signal="file_selected" from="editor/main/SaveDialog" to="." method="_on_save_dialog_file_selected"]
