@@ -3,7 +3,7 @@ Charter for Rift of the Necrodancer
 ## Requirements
 Runs in Godot 4.X specifically 4.3 but any should work
 
-Needs an addon from here `https://github.com/ynot01/godot_rust_yaml` unpack it into addons so your folder path looks like `addons/godot_rust_yaml/godot_rust_yaml.gdextension`
+Needs an addon from here https://github.com/ynot01/godot_rust_yaml unpack it into addons so your folder path looks like `addons/godot_rust_yaml/godot_rust_yaml.gdextension`
 
 ## Screenshot(s)
 
