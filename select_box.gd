@@ -36,9 +36,10 @@ func get_selected():
 	var drag_rect = Rect2( drag_pos, drag_size )
 	var selection = []
 	for child : Control in chart_viewer.get_children():
-		var child_box = Rect2( child.get_screen_position(), child.size )
+		var child_box = Rect2( child.global_position, child.size )
 		if drag_rect.intersects( child_box ):
 			selection.append( child )
+	print( selection )
 	SignalBus.event_selected.emit( selection )
 			
 func _draw() -> void:
