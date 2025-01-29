@@ -18,6 +18,7 @@ func _gui_input(event: InputEvent) -> void:
 
 func scroll_to():
 	var percent = (get_local_mouse_position().y -pixels_per_beat*7 )/size.y
+	print( chart_scroll.get_v_scroll_bar().max_value )
 	chart_scroll.scroll_vertical = chart_scroll.get_v_scroll_bar().max_value * percent
 
 func _draw() -> void:

@@ -185,10 +185,12 @@ func update_beat():
 	position.y = get_parent().size.y - (startBeatNumber+8) * 64
 
 func _ready() -> void:
-	get_window().get_viewport().size_changed.connect( recalc_position )
+	get_parent().resized.connect( recalc_position )
+	#get_window().get_viewport().size_changed.connect( recalc_position )
 	
 func recalc_position():
 	set_track(track)
+	track_width = get_parent().size.x/4
 	queue_redraw()
 
 func _gui_input(event: InputEvent) -> void:

@@ -32,6 +32,8 @@ func _ready() -> void:
 var height = 720
 func recalc_height():
 	height = size.y
+	current_beat = current_beat
+	queue_redraw()
 	
 func delete_event( track, beat ):
 	for child in chart_viewer.get_children():
@@ -63,20 +65,23 @@ func add_event( track, beat, catid ):
 		new_event.set_trap_to_spawn( event_def.id )
 
 	new_event.set_facing( facing )
+	
+	if chart_viewer.custom_minimum_size.y < beat * 64:
+		chart_viewer.custom_minimum_size.y = beat * 64
 
 func _shortcut_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if !event.pressed: return
-		if event.keycode == KEY_UP: current_beat += snap
-		if event.keycode == KEY_DOWN: current_beat -= snap
-		if event.keycode == KEY_Z: add_event(1, current_beat, cat_and_id)
-		if event.keycode == KEY_X: add_event(2, current_beat, cat_and_id)
-		if event.keycode == KEY_C: add_event(3, current_beat, cat_and_id)
-		if event.keycode == KEY_D: 
+		if event.keycode == Keybinds.scroll_up: current_beat += snap
+		if event.keycode == Keybinds.scroll_down: current_beat -= snap
+		if event.keycode == Keybinds.place_left: add_event(1, current_beat, cat_and_id)
+		if event.keycode == Keybinds.place_up: add_event(2, current_beat, cat_and_id)
+		if event.keycode == Keybinds.place_right: add_event(3, current_beat, cat_and_id)
+		if event.keycode == Keybinds.delete_row: 
 			delete_event(1, current_beat)
 			delete_event(2, current_beat)
 			delete_event(3, current_beat)
-		if event.keycode == KEY_F: 
+		if event.keycode == Keybinds.toggle_facing: 
 			facing = !facing
 			queue_redraw()
 			

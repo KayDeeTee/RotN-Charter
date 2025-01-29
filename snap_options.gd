@@ -9,10 +9,10 @@ func _ready() -> void:
 func _shortcut_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if !event.pressed: return
-		if event.keycode == KEY_RIGHT:
+		if event.keycode == Keybinds.snap_right:
 			select( (selected + 1)%len(snaps) )
 			item_selected.emit( selected )
-		if event.keycode == KEY_LEFT:
+		if event.keycode == Keybinds.snap_left:
 			select( ((selected - 1)+len(snaps))%len(snaps) )
 			item_selected.emit( selected )
 	

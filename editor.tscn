@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c07cxf0gtesd6"]
+[gd_scene load_steps=33 format=3 uid="uid://c07cxf0gtesd6"]
 
 [ext_resource type="Script" path="res://rotn_parser.gd" id="1_qps6w"]
 [ext_resource type="FontFile" uid="uid://cu4a854e7mtjl" path="res://fonts/Hack-Regular.ttf" id="2_30f6o"]
@@ -26,6 +26,9 @@
 [ext_resource type="Script" path="res://emu_track_draw.gd" id="21_5mw8o"]
 [ext_resource type="Script" path="res://editor_cursor.gd" id="22_y8nfv"]
 [ext_resource type="Script" path="res://minimap.gd" id="23_fjsdg"]
+[ext_resource type="Texture2D" uid="uid://bn41aa24h0psu" path="res://Keyboard.svg" id="23_jl3rg"]
+[ext_resource type="Script" path="res://rebinds_window_button.gd" id="24_c72d8"]
+[ext_resource type="Script" path="res://rebinds_window.gd" id="27_yr22o"]
 
 [sub_resource type="Theme" id="Theme_83s6b"]
 default_font = ExtResource("2_30f6o")
@@ -77,10 +80,11 @@ chart_viewer = NodePath("../chart view/chart_scroll/margin/chart_data")
 
 [node name="editor" type="Control" parent="editor/main"]
 layout_mode = 1
-anchor_left = 0.4
+anchors_preset = 11
+anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
+offset_left = -600.0
 offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -8.0
@@ -94,20 +98,19 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_qmfs2")
 
-[node name="events" type="Control" parent="editor/main/editor"]
+[node name="events" type="MarginContainer" parent="editor/main/editor"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 192.0
 grow_horizontal = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="split" type="VBoxContainer" parent="editor/main/editor/events"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="events_label" type="RichTextLabel" parent="editor/main/editor/events/split"]
 layout_mode = 2
@@ -602,10 +605,26 @@ text = "duplicate
 "
 script = ExtResource("7_u8pww")
 
+[node name="rebinds" type="TextureButton" parent="editor/main/editor" node_paths=PackedStringArray("window")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -36.0
+offset_right = -4.0
+offset_bottom = 32.0
+grow_horizontal = 0
+texture_normal = ExtResource("23_jl3rg")
+stretch_mode = 3
+script = ExtResource("24_c72d8")
+window = NodePath("../../../Window")
+
 [node name="chart view" type="Control" parent="editor/main"]
 layout_mode = 1
-anchor_right = 0.2
+anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -616.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -658,15 +677,16 @@ script = ExtResource("22_y8nfv")
 chart_scroll = NodePath("../chart_scroll")
 chart_viewer = NodePath("../chart_scroll/margin/chart_data")
 
-[node name="minimap" type="Control" parent="editor/main" node_paths=PackedStringArray("chart_scroll", "chart_viewer")]
+[node name="minimap" type="Control" parent="editor/main/chart view" node_paths=PackedStringArray("chart_scroll", "chart_viewer")]
 layout_mode = 1
-anchor_left = 0.2
-anchor_right = 0.2
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 8.0
 script = ExtResource("23_fjsdg")
-chart_scroll = NodePath("../chart view/chart_scroll")
-chart_viewer = NodePath("../chart view/chart_scroll/margin/chart_data")
+chart_scroll = NodePath("../chart_scroll")
+chart_viewer = NodePath("../chart_scroll/margin/chart_data")
 
 [node name="emu" type="Control" parent="editor/main"]
 visible = false
@@ -706,6 +726,32 @@ access = 2
 filters = PackedStringArray("*.json")
 show_hidden_files = true
 use_native_dialog = true
+
+[node name="Window" type="Window" parent="editor"]
+title = "Rebinds"
+initial_position = 4
+size = Vector2i(256, 350)
+visible = false
+unresizable = true
+always_on_top = true
+force_native = true
+
+[node name="MarginContainer" type="MarginContainer" parent="editor/Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="rebinds" type="GridContainer" parent="editor/Window/MarginContainer" node_paths=PackedStringArray("window")]
+layout_mode = 2
+columns = 3
+script = ExtResource("27_yr22o")
+window = NodePath("../..")
 
 [connection signal="pressed" from="editor/main/editor/margin/split/chartedit/HBoxContainer/load" to="." method="_on_load"]
 [connection signal="pressed" from="editor/main/editor/margin/split/chartedit/HBoxContainer/save" to="." method="_on_save"]

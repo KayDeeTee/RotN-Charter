@@ -10,15 +10,24 @@ config_version=5
 
 [application]
 
-config/name="rotn"
+config/name="RotN Charter"
+run/main_scene="res://editor.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+boot_splash/bg_color=Color(0.25098, 0.223529, 0.282353, 1)
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [autoload]
 
 SignalBus="*res://signals.gd"
+Keybinds="*res://keybindings.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/subwindows/embed_subwindows=false
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.249714, 0.225105, 0.282536, 1)

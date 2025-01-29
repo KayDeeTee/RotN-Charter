@@ -9,7 +9,7 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	var offset = scroll.get_v_scroll_bar().value
 	var end = scroll.get_v_scroll_bar().max_value
-	offset = ( (end-offset)-720 )
+	offset = ( (end-offset)-get_viewport().size.y   )
 	
 	var beatzero = offset/64
 	
