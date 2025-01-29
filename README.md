@@ -5,6 +5,11 @@ Runs in Godot 4.X specifically 4.3 but any should work
 
 Needs an addon from here `https://github.com/ynot01/godot_rust_yaml` unpack it into addons so your folder path looks like `addons/godot_rust_yaml/godot_rust_yaml.gdextension`
 
+## Screenshot(s)
+
+![image](https://github.com/user-attachments/assets/3ba1da82-6215-4e21-84b2-367b49f50287)
+
+
 ## Keybinds
 Click the key icon top right to open the rebinding menu.
 
