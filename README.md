@@ -6,7 +6,7 @@ Runs in Godot 4.X specifically 4.3 but any should work
 Needs an addon from here `https://github.com/ynot01/godot_rust_yaml` unpack it into addons so your folder path looks like `addons/godot_rust_yaml/godot_rust_yaml.gdextension`
 
 ## Keybinds
-You currently can't rebind stuff, sorry.
+Click the key icon top right to open the rebinding menu.
 
 Up/Down => Moves the cursor up/down by the snap amount
 
