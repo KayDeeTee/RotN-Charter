@@ -63,6 +63,9 @@ enum EnemyID{
 
 @export var chart_viewer : Control
 func _ready() -> void:
+	Global.parser = self
+	Global.chart = chart_viewer
+	
 	json_data = {}
 	subdiv_spin.value_changed.connect( update_subdiv )
 	offset_spin.value_changed.connect( update_offset )

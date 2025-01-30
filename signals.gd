@@ -7,3 +7,5 @@ signal change_snap( subdiv )
 signal change_snap_rel( subdiv )
 
 signal chart_loaded()
+
+signal command_log( string )

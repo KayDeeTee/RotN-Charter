@@ -1,0 +1,251 @@
+[gd_scene load_steps=6 format=3 uid="uid://cjtuj3giv245e"]
+
+[ext_resource type="Script" path="res://composer.gd" id="1_chba2"]
+[ext_resource type="VideoStream" path="res://ignores/images/rave.mp4" id="2_ch4uk"]
+[ext_resource type="Script" path="res://gameplay.gd" id="3_fgdbq"]
+[ext_resource type="FontFile" uid="uid://cu4a854e7mtjl" path="res://fonts/Hack-Regular.ttf" id="4_elwsd"]
+
+[sub_resource type="Theme" id="Theme_jwid4"]
+default_font = ExtResource("4_elwsd")
+
+[node name="Node2D" type="Node2D"]
+
+[node name="composer" type="Node2D" parent="." node_paths=PackedStringArray("text_info", "video", "gameplay", "gameplay_raw", "bpm_spin", "video_spin", "snap_label", "time_label", "beat_label")]
+script = ExtResource("1_chba2")
+text_info = NodePath("../CanvasLayer/t data")
+video = NodePath("../CanvasLayer/video")
+gameplay = NodePath("../CanvasLayer/gameplay")
+gameplay_raw = NodePath("../CanvasLayer/gameplay_raw")
+bpm_spin = NodePath("../CanvasLayer/tools_margin/tools/bpm/spin")
+video_spin = NodePath("../CanvasLayer/tools_margin/tools/video_offset/spin")
+snap_label = NodePath("../CanvasLayer/tools_margin/tools/snap_info/label_orientation2/label")
+time_label = NodePath("../CanvasLayer/tools_margin/tools/time_info/label_orientation/label")
+beat_label = NodePath("../CanvasLayer/tools_margin/tools/time_info/label_orientation2/label")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="video" type="VideoStreamPlayer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+stream = ExtResource("2_ch4uk")
+volume_db = -10.0
+autoplay = true
+expand = true
+loop = true
+buffering_msec = 10
+
+[node name="gameplay" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_left = 0.7
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_fgdbq")
+
+[node name="gameplay_raw" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_right = 0.3
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_fgdbq")
+is_raw = true
+
+[node name="t data" type="RichTextLabel" parent="CanvasLayer"]
+visible = false
+offset_right = 537.0
+offset_bottom = 292.0
+text = "bpm: 0
+time: 0"
+
+[node name="tools_margin" type="MarginContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.3
+anchor_right = 0.7
+anchor_bottom = 1.0
+theme = SubResource("Theme_jwid4")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="tools" type="VBoxContainer" parent="CanvasLayer/tools_margin"]
+layout_mode = 2
+
+[node name="bpm" type="HBoxContainer" parent="CanvasLayer/tools_margin/tools"]
+layout_mode = 2
+
+[node name="label_orientation" type="Control" parent="CanvasLayer/tools_margin/tools/bpm"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer/tools_margin/tools/bpm/label_orientation"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]bpm[/right]"
+fit_content = true
+
+[node name="spin" type="SpinBox" parent="CanvasLayer/tools_margin/tools/bpm"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+allow_greater = true
+allow_lesser = true
+
+[node name="video_offset" type="HBoxContainer" parent="CanvasLayer/tools_margin/tools"]
+layout_mode = 2
+
+[node name="label_orientation" type="Control" parent="CanvasLayer/tools_margin/tools/video_offset"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer/tools_margin/tools/video_offset/label_orientation"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]video offset[/right]"
+fit_content = true
+
+[node name="spin" type="SpinBox" parent="CanvasLayer/tools_margin/tools/video_offset"]
+layout_mode = 2
+size_flags_horizontal = 3
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="time_label" type="HBoxContainer" parent="CanvasLayer/tools_margin/tools"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+
+[node name="label_orientation" type="Control" parent="CanvasLayer/tools_margin/tools/time_label"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer/tools_margin/tools/time_label/label_orientation"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[center]TIME[/center]"
+fit_content = true
+
+[node name="label_orientation2" type="Control" parent="CanvasLayer/tools_margin/tools/time_label"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer/tools_margin/tools/time_label/label_orientation2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[center]BEAT[/center]"
+fit_content = true
+
+[node name="time_info" type="HBoxContainer" parent="CanvasLayer/tools_margin/tools"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+
+[node name="label_orientation" type="Control" parent="CanvasLayer/tools_margin/tools/time_info"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer/tools_margin/tools/time_info/label_orientation"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[center]00:00[/center]"
+fit_content = true
+
+[node name="label_orientation2" type="Control" parent="CanvasLayer/tools_margin/tools/time_info"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer/tools_margin/tools/time_info/label_orientation2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[center]00.00[/center]"
+fit_content = true
+
+[node name="snap_info" type="HBoxContainer" parent="CanvasLayer/tools_margin/tools"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+
+[node name="label_orientation" type="Control" parent="CanvasLayer/tools_margin/tools/snap_info"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer/tools_margin/tools/snap_info/label_orientation"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[center]SNAP[/center]"
+fit_content = true
+
+[node name="label_orientation2" type="Control" parent="CanvasLayer/tools_margin/tools/snap_info"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="RichTextLabel" parent="CanvasLayer/tools_margin/tools/snap_info/label_orientation2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[center]1/1[/center]"
+fit_content = true
+
+[connection signal="value_changed" from="CanvasLayer/tools_margin/tools/bpm/spin" to="composer" method="_on_bpm_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/tools_margin/tools/video_offset/spin" to="composer" method="_on_v_offset_value_changed"]

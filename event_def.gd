@@ -63,10 +63,7 @@ static func get_categories():
 static func get_type_id( _type, _id ):
 	if definitions == {}: get_cat_id("slime/green")
 	if TrapID.has( _id ): 
-		print( _id )
 		_id = TrapID[_id]
-		print( _id )
-		print( TrapID.keys() )
 	for key in definitions.keys():
 		if definitions[key].type == _type and definitions[key].id == _id:
 			return definitions[key]
@@ -74,11 +71,11 @@ static func get_type_id( _type, _id ):
 	
 static func get_cat_id( _cat_id ):
 	if definitions == {}:
-		EventDef.new(0, EnemyID.GreenSlime,				 	preload("res://sprites/green_slime.png"),	"slime","green" )
-		EventDef.new(0, EnemyID.BlueSlime, 					preload("res://sprites/blue_slime.png"),	"slime","blue" )
-		EventDef.new(0, EnemyID.YellowSlime, 				preload("res://sprites/yellow_slime.png"),	"slime","yellow" )
-		EventDef.new(0, EnemyID.BaseSkeleton, 				preload("res://sprites/skeleton.png"),		"skeleton","1" )
-		EventDef.new(0, EnemyID.ShieldSkeleton, 			preload("res://sprites/shield_skeleton.png"),"skeleton","2" )
+		EventDef.new(0, EnemyID.GreenSlime,				 	preload("res://sprites/green_slime.png"),		"slime","green" )
+		EventDef.new(0, EnemyID.BlueSlime, 					preload("res://sprites/blue_slime.png"),		"slime","blue" )
+		EventDef.new(0, EnemyID.YellowSlime, 				preload("res://sprites/yellow_slime.png"),		"slime","yellow" )
+		EventDef.new(0, EnemyID.BaseSkeleton, 				preload("res://sprites/skeleton.png"),			"skeleton","1" )
+		EventDef.new(0, EnemyID.ShieldSkeleton, 			preload("res://sprites/shield_skeleton.png"),	"skeleton","2" )
 		EventDef.new(0, EnemyID.TripleShieldBaseSkeleton, 	preload("res://sprites/shield_double_skeleton.png"),	"skeleton","3" )
 		EventDef.new(0, EnemyID.YellowSkeleton, 			preload("res://sprites/yellow_skeleton.png"),	"skeletony","1" )
 		EventDef.new(0, EnemyID.ShieldYellowSkeleton, 		preload("res://sprites/shield_yellow_skeleton.png"),	"skeletony","2" )

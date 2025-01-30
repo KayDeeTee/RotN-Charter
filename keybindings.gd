@@ -21,6 +21,12 @@ func _init():
 	place_right 	= json_default( json, 		"3", 		KEY_C )
 	delete_row 		= json_default( json, 		"del", 		KEY_D )
 	toggle_facing 	= json_default( json, 		"facing", 	KEY_F )
+	
+	shift_event_right 	= json_default( json, 		"event_right", 	KEY_E )
+	shift_event_left 	= json_default( json, 		"event_left", 	KEY_Q )
+	shift_event_up 		= json_default( json, 		"event_up", 	KEY_W )
+	shift_event_down 	= json_default( json, 		"event_down", 	KEY_S )
+
 
 func save_binds():
 	var f = FileAccess.open( filepath, FileAccess.WRITE )
@@ -37,6 +43,12 @@ func save_binds():
 	json["del"] 		= delete_row
 	json["facing"] 		= toggle_facing
 	
+	json["event_right"] = shift_event_right
+	json["event_left"] = shift_event_left
+	json["event_up"] = shift_event_up
+	json["event_down"] = shift_event_down
+
+	
 	f.store_string( JSON.stringify( json ) )
 	
 var filepath = "user://keybinds.json"
@@ -51,4 +63,8 @@ var place_up		= KEY_X
 var place_right		= KEY_C
 var delete_row		= KEY_D
 var toggle_facing	= KEY_F
- 
+
+var shift_event_right 	= KEY_E
+var shift_event_left 	= KEY_Q
+var shift_event_up 		= KEY_W
+var shift_event_down 	= KEY_S

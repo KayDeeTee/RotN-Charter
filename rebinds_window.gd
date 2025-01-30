@@ -20,7 +20,7 @@ class rebind_wrapper:
 		key.text = OS.get_keycode_string( Keybinds.get(var_name) )
 	
 		button = Button.new()
-		button.text = "rebind"
+		button.text = OS.get_keycode_string( Keybinds.get(var_name) )
 		button.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		
 		button.pressed.connect( start_rebind )
@@ -44,14 +44,11 @@ func create_rebind_button( var_name : String ):
 	var rw = rebind_wrapper.new( self, var_name )
 	rebind_wrappers.append( rw )
 	add_child( rw.label )
-	add_child( rw.key )
+	#add_child( rw.key )
 	add_child( rw.button )
 
-func hide_window():
-	window.hide()
-
 func _ready() -> void:
-	window.close_requested.connect( hide_window )
+	#window.close_requested.connect( hide_window )
 	
 	for prop in Keybinds.get_property_list():
 		if !(prop["usage"] & PropertyUsageFlags.PROPERTY_USAGE_SCRIPT_VARIABLE): continue
@@ -64,7 +61,7 @@ func _input(event: InputEvent) -> void:
 		
 		Keybinds.set( current_rebind.variable_name, event.keycode )
 		current_rebind.key.text = OS.get_keycode_string( event.keycode )
-
+		current_rebind.button.text = OS.get_keycode_string( event.keycode )
 		current_rebind = null
 		
 		Keybinds.save_binds()

@@ -21,6 +21,7 @@ func on_load_chart():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Global.cursor = self
 	chart_scroll.get_v_scroll_bar().value_changed.connect( on_scroll )
 	SignalBus.change_snap.connect( change_snap )
 	SignalBus.set_picker_entity.connect( change_ent )
@@ -35,13 +36,17 @@ func recalc_height():
 	current_beat = current_beat
 	queue_redraw()
 	
+func delete_near( track, beat, range ):
+	for child in chart_viewer.get_children():
+		if child.get_track() == track and abs(child.startBeatNumber-beat) < beat: #won't delete bpm/vibe
+			child.queue_free()
+	
 func delete_event( track, beat ):
 	for child in chart_viewer.get_children():
 		if child.get_track() == track and child.startBeatNumber == beat: #won't delete bpm/vibe
 			child.queue_free()
 
-func add_event( track, beat, catid ):
-	delete_event( track, beat )
+func insert_event( track, beat, catid ):
 	var new_event = preload("res://prefab/event.tscn").instantiate()
 	chart_viewer.add_child( new_event )
 	var event = {}
@@ -68,6 +73,10 @@ func add_event( track, beat, catid ):
 	
 	if chart_viewer.custom_minimum_size.y < beat * 64:
 		chart_viewer.custom_minimum_size.y = beat * 64
+
+func add_event( track, beat, catid ):
+	delete_event( track, beat )
+	insert_event( track, beat, catid )
 
 func _shortcut_input(event: InputEvent) -> void:
 	if event is InputEventKey:

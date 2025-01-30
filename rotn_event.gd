@@ -63,6 +63,32 @@ enum EnemyID{
 	RedArmadillo = 1707
 }
 
+#stuff for scripting
+func is_enemy( e_id : String ):
+	if !data_dict.has("EnemyId"): return false
+	var id = EventDef.get_cat_id( e_id ).id
+	return data_dict["EnemyId"] == id
+func set_enemy( e_id : String ):
+	var id = EventDef.get_cat_id( e_id ).id
+	set_enemy_id( id  )
+func shift_track( amt : int ):
+	track = fposmod(track-1+amt, 3)+1
+	#while( track >= 4 ): track -= 3
+	#while( track <= 0 ): track += 3
+	set_track(track)
+func shift_beat( amt : int ):
+	startBeatNumber += amt
+	endBeatNumber += amt
+	recalc_position()
+func flip_facing():
+	if data_dict.has("ShouldStartFacingRight"):
+		data_dict.erase("ShouldStartFacingRight")
+	else:
+		data_dict["ShouldStartFacingRight"] = true
+	update_texture()
+	queue_redraw()
+#end of stuff for scripting
+
 var track_width = 0
 
 var track = 1
@@ -193,7 +219,23 @@ func recalc_position():
 	track_width = get_parent().size.x/4
 	queue_redraw()
 
+func _shortcut_input(event: InputEvent) -> void:
+	if !selected: return
+	if event is InputEventKey and event.pressed:
+		if event.keycode == Keybinds.shift_event_up:
+			shift_beat(1)
+		if event.keycode == Keybinds.shift_event_down:
+			shift_beat(-1)
+		if event.keycode == Keybinds.shift_event_right:
+			shift_track(1)
+		if event.keycode == Keybinds.shift_event_left:
+			shift_track(-1)
+		if event.keycode == Keybinds.toggle_facing:
+			flip_facing()
+
+var selected : bool = false
 func _gui_input(event: InputEvent) -> void:
+	print( event )
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == 1:
 			SignalBus.event_selected.emit( self )
@@ -298,6 +340,8 @@ func get_offset_pos(x,y):
 	var _x = ((int(track)+5+x)%3)+1 #5 = -1 but > 0 so % works
 	_x = _x - track
 	return Vector2(track_width*_x,-64*y)+Vector2(16,16)
+	
+var colour_selected = Color(0,1,1, 1.0)
 	
 var colour_white = Color(1, 1, 1, 1)
 var colour_red = Color(0.8,0.2,0.2, 1.0)
@@ -437,8 +481,12 @@ func _draw():
 	size = target_size
 	col.a = 0.5
 	draw_rect( Rect2i(Vector2(0,0), size),col, true )
-	col.a = 1.0
-	draw_rect( Rect2i(Vector2(0,0), size),col, false )
+	if selected:
+		draw_rect( Rect2i(Vector2(0,0), size), Color(0,0,0) , false, 4 )
+		draw_rect( Rect2i(Vector2(0,0), size), colour_selected , false, 2 )
+	else:
+		col.a = 1.0
+		draw_rect( Rect2i(Vector2(0,0), size),col, false )
 	colour = col
 	var prev_point = Vector2(16, 16)
 	for point in points:

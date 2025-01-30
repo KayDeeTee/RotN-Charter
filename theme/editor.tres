@@ -1,0 +1,34 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://xgprir6o64xq"]
+
+[ext_resource type="FontFile" uid="uid://cu4a854e7mtjl" path="res://fonts/Hack-Regular.ttf" id="1_boiij"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qowlv"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmdbv"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smru6"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d1f2c"]
+bg_color = Color(0.370303, 0.333849, 0.412127, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[resource]
+default_font = ExtResource("1_boiij")
+OptionButton/styles/hover = SubResource("StyleBoxFlat_qowlv")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_tmdbv")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_smru6")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_d1f2c")

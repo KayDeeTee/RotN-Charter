@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 SignalBus="*res://signals.gd"
 Keybinds="*res://keybindings.gd"
+Global="*res://global.gd"
 
 [display]
 
