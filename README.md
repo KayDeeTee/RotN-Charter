@@ -1,14 +1,22 @@
 # RotN-Charter
 Charter for Rift of the Necrodancer
-## Requirements
+
+## Requirements to edit
 Runs in Godot 4.X specifically 4.3 but any should work
 
 Needs an addon from here https://github.com/ynot01/godot_rust_yaml unpack it into addons so your folder path looks like `addons/godot_rust_yaml/godot_rust_yaml.gdextension`
 
+Code desperately needs refactoring, it was designed as a mvp as simple as possible editor, so stuff like enemy enums are duplicated where they are needed
+
 ## Screenshot(s)
 
-![image](https://github.com/user-attachments/assets/3ba1da82-6215-4e21-84b2-367b49f50287)
+![image](https://github.com/user-attachments/assets/e27fab1c-9c8d-48a0-9b94-b67fb19baee3)
 
+![image](https://github.com/user-attachments/assets/f8af7cd9-8674-4750-8b19-c8f3ceb92bf9)
+
+![image](https://github.com/user-attachments/assets/9e1eb931-0a86-4203-84d3-d3abc59f2579)
+
+![image](https://github.com/user-attachments/assets/e225a089-1077-4eac-a700-792153138f47)
 
 ## Keybinds
 Click the key icon top right to open the rebinding menu.
@@ -47,3 +55,8 @@ You need to add a folder to `CustomTracks` in your persistent storage for RotN `
 You need to add an mp3 file for the music, and a png for album art to the folder as well as your chart json files.
 
 Finally you need to make a copy of info.json from the example folder, and edit the values in that to be correct for your song.
+
+## Script Tool
+Theres currently, and probably never will be documentation, you will have to look at the given example and at the source code of the charter.
+
+It has full access as if it was written in godot so you can modify pretty much anything.
