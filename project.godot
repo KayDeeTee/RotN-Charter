@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="RotN Charter"
-run/main_scene="res://editor.tscn"
+run/main_scene="res://scenes/editor.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 boot_splash/bg_color=Color(0.25098, 0.223529, 0.282353, 1)
 boot_splash/show_image=false
@@ -19,9 +19,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SignalBus="*res://signals.gd"
-Keybinds="*res://keybindings.gd"
-Global="*res://global.gd"
+SignalBus="*res://scripts/signals.gd"
+Keybinds="*res://scripts/keybinding/keybindings.gd"
+Global="*res://scripts/global.gd"
 
 [display]
 
